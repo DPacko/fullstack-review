@@ -1,6 +1,6 @@
 const express = require("express");
 var bodyParser = require("body-parser");
-var { save } = require("../database/index.js");
+var { save, Repo } = require("../database/index.js");
 var { getReposByUsername } = require("../helpers/github.js");
 let app = express();
 
@@ -16,12 +16,14 @@ app.post("/repos", function(req, res) {
   getReposByUsername(username, function(err, response, body) {
     if (err) {
       console.log("TROUBLE connecting to Github API!!", err);
+      res.status(400).send("unable to connect githubapi!!");
     } else {
       console.log("successfully connected to Github API!!", response);
       console.log("body = ", body);
       // save the repo information in the database
       save(body).then(res => {
         console.log("results from saving into db: ", res);
+        res.status(200).end();
       });
     }
   });
@@ -29,11 +31,12 @@ app.post("/repos", function(req, res) {
 
 app.get("/repos", function(req, res) {
   // This route should send back the top 25 repos
-  var cursor = Repo.repoSchema // need to import uptop or do this in server folder
-    .find()
+  var cursor = Repo.find() // need to import uptop or do this in server folder
     .sort({ stargazers_count: -1 })
     .limit(25)
     .toArray();
+
+  res.satus(200).send(cursor);
 });
 
 let port = 1128;

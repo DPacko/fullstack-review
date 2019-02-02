@@ -11,14 +11,16 @@ let repoSchema = mongoose.Schema({
 });
 
 let Repo = mongoose.model("Repo", repoSchema);
+// .model() fn makes a copy of repoSchema
+// and instance of model ^ is called a document
 
 let save = data => {
   // This function should save a repo or repos to the MongoDB
   // data from github API passes through here, screened, and sent to mongoDB
-  // might have to put db.repoSchema instead of Repo.repoSchema
-  var isUserInDB = Repo.repoSchema.find({ username: `${data.username}` }); // returns a cursor to the repos
+  // might have to put Repo.find()
+  var isUserInDB = Repo.findOne({ username: `${data.username}` }); // returns a cursor to the repos
   if (!isUserInDB) {
-    Repo.repoSchema.insertOne({
+    Repo.insertOne({
       repo_name: `${data.repo_name}`,
       username: `${data.username}`,
       url: `${(data, url)}`,
@@ -29,4 +31,5 @@ let save = data => {
   }
 };
 
-module.exports.save = save;
+module.exports = { save, Repo };
+// module.exports.save = save;
