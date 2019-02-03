@@ -10,22 +10,53 @@ class App extends React.Component {
     this.state = {
       repos: []
     };
+    this.grabRepos = this.grabRepos.bind(this);
+    this.updateRepos = this.updateRepos.bind(this);
+  }
+
+  componentDidMount() {
+    this.grabRepos();
+    //   function(data) {
+    //   // this.updateRepos(data);
+    //   console.log("inside", data);
+    //   return data;
+    // });
+    // console.log(data);
+  }
+
+  updateRepos(data) {
+    this.setState({
+      repos: data
+    });
+  }
+
+  grabRepos(callback) {
+    $.ajax({
+      url: "http://localhost:1128/repos",
+      method: "GET",
+      // contentType: "application/json",
+      success: this.updateRepos,
+      // console.log("grabbed most recent repos from db!");
+      error: function() {
+        console.log("GET request FAILED", status);
+      }
+    });
   }
 
   search(term) {
     console.log(`${term} was searched`);
 
-    var request = $.ajax({
-      url: "http://127.0.0.1:1128/repos",
+    $.ajax({
+      url: "http://localhost:1128/repos",
       method: "POST",
-      data: JSON.stringify(term),
-      dataType: "application/json"
-    });
-    request.done(function(msg) {
-      console.log("POST request to server complete!", msg);
-    });
-    request.fail(function(jqXHR, textStatus) {
-      console.log("POST request FAILED: " + testStatus);
+      data: { term: term },
+      // contentType: "application/json",
+      success: function() {
+        console.log("data posted to server");
+      },
+      error: function() {
+        console.log("POST request FAILED", status);
+      }
     });
   }
 

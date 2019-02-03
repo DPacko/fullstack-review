@@ -14,12 +14,13 @@ let getReposByUsername = (username, callback) => {
     }
   };
 
-  request(options, function(err, resp, body) {
+  request(options, function(err, resp) {
     if (err) {
       console.log("error connecting to github api!!", err);
     } else {
-      console.log("Success accessing github api!!", response);
-      callback(null, response, body);
+      console.log("Success accessing github api!!");
+      var body = JSON.parse(resp.body);
+      callback(null, body);
     }
   });
 };
