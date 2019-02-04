@@ -16,23 +16,15 @@ class App extends React.Component {
 
   componentDidMount() {
     this.grabRepos();
-    // function(data) {
-    // this.updateRepos(data);
-    // console.log("inside", data);
-    // return data;
-    // });
-    // console.log(data);
   }
 
   updateRepos(data) {
-    console.log("UPDATINGGGG");
-    console.log(this.state);
     this.setState({
       repos: data
     });
   }
 
-  grabRepos(callback) {
+  grabRepos() {
     $.ajax({
       url: "http://localhost:1128/repos",
       method: "GET",
@@ -69,8 +61,8 @@ class App extends React.Component {
     return (
       <div>
         <h1>Github Fetcher</h1>
-        <RepoList repos={this.state.repos} />
         <Search onSearch={this.search.bind(this)} />
+        <RepoList repos={this.state.repos} />
       </div>
     );
   }

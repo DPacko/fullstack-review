@@ -17,10 +17,3 @@ const Repos = props => (
 );
 
 export default Repos;
-
-// repo_name: { type: String, unique: true, required: true },
-// username: String,
-// url: String,
-// description: String,
-// stargazers_count: Number,
-// updated_at: Date

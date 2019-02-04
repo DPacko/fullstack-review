@@ -2,7 +2,6 @@ const express = require("express");
 var bodyParser = require("body-parser");
 var Repo = require("../database/index.js");
 var { save, find } = require("../database/index.js");
-var Repo = require("../database/index.js");
 var { getReposByUsername } = require("../helpers/github.js");
 let app = express();
 
@@ -31,7 +30,6 @@ app.get("/repos", function(req, res) {
   console.log("inside the db");
   // This route should send back the top 25 repos
   find().then(result => {
-    console.log(result);
     console.log("found 25 repos");
     return res.status(200).send(result);
   });
