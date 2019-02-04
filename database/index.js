@@ -6,7 +6,7 @@ mongoose.Promise = global.Promise;
 var repoSchema = mongoose.Schema({
   repo_name: { type: String, unique: true, required: true },
   username: String,
-  url: String,
+  url: { type: String, unique: true, required: true },
   description: String,
   stargazers_count: Number,
   updated_at: Date

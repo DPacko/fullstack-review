@@ -16,15 +16,17 @@ class App extends React.Component {
 
   componentDidMount() {
     this.grabRepos();
-    //   function(data) {
-    //   // this.updateRepos(data);
-    //   console.log("inside", data);
-    //   return data;
+    // function(data) {
+    // this.updateRepos(data);
+    // console.log("inside", data);
+    // return data;
     // });
     // console.log(data);
   }
 
   updateRepos(data) {
+    console.log("UPDATINGGGG");
+    console.log(this.state);
     this.setState({
       repos: data
     });
@@ -51,10 +53,13 @@ class App extends React.Component {
       method: "POST",
       data: { term: term },
       // contentType: "application/json",
-      success: function() {
-        console.log("data posted to server");
+      success: data => {
+        console.log("successsssss");
+        console.log(data);
+        this.grabRepos();
       },
-      error: function() {
+      error: function(err) {
+        console.log(err);
         console.log("POST request FAILED", status);
       }
     });

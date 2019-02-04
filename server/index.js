@@ -22,6 +22,7 @@ app.post("/repos", function(req, res) {
     } else {
       console.log("successfully connected to Github API!!");
       save(body[0]);
+      res.status(200).send({ success: true });
     }
   });
 });
